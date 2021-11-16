@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/movies/search.css' %}">
+<title>Search anime movies</title>
+{% endblock %}
+
+{% block content %}
+
+<div id="search-container" class="d-flex justify-content-center {% if movies %}show-movies{% endif %}">
+  <div id="search-wapper" class="col-sm-9 my-auto">
+    <h1 id="search-text">Anime movies</h1>
+    <form id="search-movies" class="input-group mb-3">
+      <input
+	id="search-input"
+	form="search-movies"
+	type="text"
+	class="form-control form-control-lg"
+	name="search"
+	value="{{ query_params.search }}"
+	placeholder="Search for anime"
+	aria-label="Search for anime"
+	aria-describedby="basic-addon2"
+	pattern=".{3,}"
+	required
+	title="Enter at least 3 characters.">
+      <input form="search-movies" type="hidden" name="page" value="1">
+      <div class="input-group-append">
+	<input
+	  id="search-button"
+	  form="search-movies"
+	  class="btn btn-outline-secondary"
+	  type="submit"
+	  value="Search">
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if movies %}
+<div id="movies-container" class="container">
+  </br>
+  <div class="row">
+    <div class="col-lg-12 mx-auto">
+      <ul class="list-group shadow">
+	{% for movie in movies %}
+        <li class="list-group-item">
+          <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+            <div class="media-body order-2 order-lg-1">
+              <a href="{{ movie.url }}" target="_blank"><h5 class="mt-0 font-weight-bold mb-2">{{ movie.title }}</h5></a>
+	      <p class="text-muted">{{ movie.type }} &#8226; {{ movie.start_date|slice:4 }}{% if movie.episodes > 1%}-{{ movie.end_date|slice:4 }} &#8226; {{ movie.episodes }} Episodes {% endif %} </p>
+              <p class="font-italic text-muted mb-0 small">{{ movie.synopsis }}</p>
+              <p class="my-2"> ⭐ <b>{{ movie.score|floatformat:1 }}</b> / 10</p>
+            </div>
+	    <img class="ml-lg-5 order-1 order-lg-2 m-auto" src="{{movie.image_url}}" alt="{{ movie.title }} image" width="200">
+          </div>
+        </li>
+	{% endfor %}
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+</br>
+
+<nav>
+  <ul class="pagination justify-content-center">
+    <li class="page-item {% if not query_params.prev_page %}disabled{% endif %}">
+      <a class="page-link" href="{% url 'movies-search' %}?search={{ query_params.search }}&page={{ query_params.prev_page }}">Previous</a>
+    </li>
+    <li class="page-item {% if not query_params.next_page %}disabled{% endif %}">
+      <a class="page-link" href="{% url 'movies-search' %}?search={{ query_params.search }}&page={{ query_params.next_page }}">Next</a>
+    </li>
+  </ul>
+</nav>
+
+</br>
+{% endif %}
+{% endblock %}

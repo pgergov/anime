@@ -1,0 +1,45 @@
+#search-container {
+    height: 100vh;
+    opacity: 0.75;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background: url('/static/img/search_cover.jpg');
+}
+
+#search-container.show-movies {
+    height: 30vh;
+}
+
+#search-wapper {
+    padding: 60px;
+    opacity: 90%;
+    border-radius: 10px;
+    background-color: black;
+}
+
+#search-text {
+    color: white;
+    font-size: 80px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#search-button {
+    color: white;
+}
+
+#movies-container {
+    margin-top: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+    #search-wapper {
+	padding: 20px;
+    }
+    .search-text {
+	font-size: 40px;
+    }
+    .media img {
+	padding-bottom: 10px;
+    }
+}
